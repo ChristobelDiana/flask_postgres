@@ -1,0 +1,88 @@
+<html>
+<head>
+	<title>Flask PostgreSQL App</title>
+	<style>
+	h2{color:darkblue}
+	#courses {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  margin-left: auto;margin-right: auto; width:50%
+	}
+	#courses td, #courses th {
+   border: 1px solid #ddd;
+   padding: 8px;
+   text-align: center;
+	}
+	#courses th{
+	 background-color: darkblue;
+     color: white;}
+	#courses tr:hover {background-color: #ddd;}
+</style>
+</head>
+<body>
+	<h1 style="color:brown;text-align: center">Trinity Academy Courses</h1>
+	<table id="courses">
+	<thead>
+		<tr>
+		<th>ID</th>
+		<th>Course Name</th>
+		<th>Fees</th>
+		<th>Duration</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for row in data %}
+		<tr>
+		<td>{{ row[0] }}</td>
+		<td>{{ row[1] }}</td>
+		<td>{{ row[2] }}</td>
+		<td>{{ row[3] }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+	</table>
+	<h2>Add a new course</h2>
+	<form action="/create" method="post">
+	<input type="text" name="name" placeholder="Name">
+	<input type="text" name="fees" placeholder="fees">
+	<input type="text" name="duration" placeholder="duration">
+	<input type="submit" value="Create">
+	</form>
+	<h2> Update/Delete course details </h2>
+	<table>
+	<thead style="display:block">
+		<tr>
+			<th>ID</th>
+			<th width="35%">Course Name</th>
+			<th width="35%">Fees</th>
+			<th width="15%"> Duration</th>
+			<th width="15%"> Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for row in data %}
+		<tr>
+		<td>
+			<form action="/update" method="post">
+			<label>{{ row[0] }}</label>
+			<input type="hidden" name="id" value="{{ row[0] }}">
+			<input type="text" name="name" size="15" value="{{ row[1] }}">
+			<input type="text" name="fees" size="7" value="{{ row[2] }}">
+			<input type="text" name="duration" size="3" value="{{ row[3] }}">
+			<input type="submit" value="Update">
+			</form>
+		</td>
+		<td>
+			<form action="/delete" method="post">
+			<input type="hidden" name="id" value="{{ row[0] }}">
+			<input type="submit" value="Delete">
+			</form>
+		</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+	</table>
+
+</body>
+</html>
+
